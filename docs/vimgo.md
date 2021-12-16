@@ -29,4 +29,6 @@ For a split window: You can use `Ctrl-w +` and `Ctrl-w -` to resize the height o
 * To increase a window to its maximum height, use `Ctrl-w _`.
 * To increase a window to its maximum width, use `Ctrl-w |`.
 
+### Tips
 
+https://dev.to/jogendra/using-vim-for-go-development-5hc6
