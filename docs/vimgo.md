@@ -32,3 +32,7 @@ For a split window: You can use `Ctrl-w +` and `Ctrl-w -` to resize the height o
 ### Tips
 
 https://dev.to/jogendra/using-vim-for-go-development-5hc6
+
+### iTerm
+
+https://gist.github.com/nobitagit/729fc16b8c16edb9a2fe390d6f312c66
