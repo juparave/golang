@@ -1,8 +1,16 @@
 ## Vim for go
 
+### Installing on MacOS
+
+The prefer way to install is with `brew` loke so:
+
+    $ brew install vim
+
 Plugin https://github.com/fatih/vim-go
 
 After installing run `:GoInstallBinaries`
+
+Or use https://vim-bootstrap.com/ to generate a start point for `.vimrc`
 
 
 ## Entr. Event Notify Test Runner
