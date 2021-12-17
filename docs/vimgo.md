@@ -17,7 +17,7 @@ Or use https://vim-bootstrap.com/ to generate a start point for `.vimrc`
 
 A utility for running arbitrary commands when files change. Uses kqueue(2) or inotify(7) to avoid polling. entr was written to make rapid feedback and automated testing natural and completely ordinary.
 
-ref: https://github.com/eradman/entr
+ref: [https://github.com/eradman/entr](https://github.com/eradman/entr)
 
 Command to work with go:
 
