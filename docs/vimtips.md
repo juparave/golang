@@ -16,7 +16,6 @@ Plug 'git@github.com:Valloric/YouCompleteMe.git'
 
 To install on MacOs
 
-```
-$ cd .vim/plugged/YouCompleteMe/
-$ python3 install.py --go-completer --typescript-completer
-```
+    $ brew install cmake
+    $ cd .vim/plugged/YouCompleteMe/
+    $ python3 install.py --go-completer --typescript-completer
