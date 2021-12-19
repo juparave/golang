@@ -3,6 +3,7 @@
 ## Vim-Go
 
 [Vim-go](vimgo.md)
+[Vim tips](vimtips.md)
 
 
 ### Templates
