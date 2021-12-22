@@ -1,5 +1,7 @@
 # Vim Tips
 
+[Vim Cheatsheet. from devhints](https://devhints.io/vim)
+
 * `F3` open nerdtree
 * `gg=G` reindent whole file
 
