@@ -27,7 +27,6 @@ To install on MacOs
 Follow the steps given below for commenting multiple using the terminal.
 
 * First, press `ESC`
-* Go to the line from which you want to start commenting. Then, press `ctrl v`, this will enable the visual block mode.
-use the down arrow to select multiple lines that you want to comment.
+* Go to the line from which you want to start commenting. Then, press `ctrl v`, this will enable the visual block mode. Use the down arrow to select multiple lines that you want to comment.
 * Now, press `shift I` to enable insert mode.
 * Press `#` or `//` and it will add a comment to the first line. Then press `ESC` and wait for a second, `#` or `//` will be added to all the lines.
