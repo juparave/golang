@@ -20,7 +20,7 @@ To install on MacOs
 
     $ brew install cmake
     $ cd .vim/plugged/YouCompleteMe/
-    $ python3 install.py --go-completer --typescript-completer
+    $ python3 install.py --go-completer --ts-completer
 
 ## Commenting Multiple Lines
 
