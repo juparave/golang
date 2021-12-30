@@ -12,6 +12,21 @@ After installing run `:GoInstallBinaries`
 
 Or use https://vim-bootstrap.com/ to generate a start point for `.vimrc`
 
+## Coc for go
+
+Add Coc plugin
+
+```
+" Use release branch (recommend)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+```
+
+Install extensions
+```
+:CocInstall coc-json coc-tsserver coc-go coc-python
+```
+
+https://github.com/josa42/coc-go
 
 ## Entr. Event Notify Test Runner
 
