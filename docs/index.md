@@ -8,7 +8,7 @@
 
 ### Templates
 
-[Practical Go Lessons. Chap32 Templates(https://www.practical-go-lessons.com/chap-32-templates)
+[Practical Go Lessons. Chap32 Templates](https://www.practical-go-lessons.com/chap-32-templates)
 
 ### Databases
 
