@@ -13,3 +13,46 @@ database, err := gorm.Open(mysql.New(mysql.Config{
 		DefaultStringSize: 256, // default size for string fields
 	}), &gorm.Config{})
 ```
+
+### Models
+
+```go
+type User struct {
+	ID             string     `json:"user_id" gorm:"size:11"`
+	AccountID      *string    `json:"account_id" gorm:"size:11"`
+	Username       string     `json:"user_name" gorm:"size:128"`
+	EmailAddress   string     `json:"email_address" gorm:"unique"`
+	FirstName      string     `json:"first_name" gorm:"size:128"`
+	LastName       string     `json:"last_name" gorm:"size:128"`
+	DisplayName    string     `json:"display_name" gorm:"size:128"`
+	AvatarImageUrl string     `json:"avatar_image_url"`
+	PhoneNumber    string     `json:"phone_number" gorm:"size:64"`
+	MobileNumber   string     `json:"mobile_number" gorm:"size:64"`
+	Password       []byte     `json:"-" gorm:"size:64"` // don't return password on json
+	LastLogin      *time.Time `json:"last_login_date"`  // The LastLogin field takes a pointer to allow setting null value in MySQL
+	CreatedAt      time.Time  `json:"created" sql:"DEFAULT:CURRENT_TIMESTAMP"`
+	UpdatedAt      time.Time  `json:"updated" sql:"DEFAULT:CURRENT_TIMESTAMP"`
+	Token          string     `json:"token" gorm:"-"`
+
+	Roles   []Role   `json:"roles" gorm:"many2many:user_roles;"`
+	Account *Account `json:"-" gorm:"foreingKey:AccountID"`
+}
+```
+
+Some `user` tools
+
+```go
+func (user *User) BeforeCreate(tx *gorm.DB) (err error) {
+	// UUID short version
+	user.ID = util.SortableShortUUID()
+}
+
+func (user *User) SetPassword(password string) {
+	hashPassword, _ := bcrypt.GenerateFromPassword([]byte(password), 14)
+	user.Password = hashPassword
+}
+
+func (user *User) ComparePassword(password string) error {
+	return bcrypt.CompareHashAndPassword(user.Password, []byte(password))
+}
+```
