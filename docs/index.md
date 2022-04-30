@@ -13,3 +13,7 @@
 ### Databases
 
 [gorm](gorm.md)
+
+### Strings
+
+[Go strings handling overview](https://yourbasic.org/golang/string-functions-reference-cheat-sheet/)
