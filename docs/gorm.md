@@ -56,3 +56,17 @@ func (user *User) ComparePassword(password string) error {
 	return bcrypt.CompareHashAndPassword(user.Password, []byte(password))
 }
 ```
+
+### Tricky queries
+
+Create or update, tries to updates a row but if no rows are affected then creates it
+
+```go
+	// create or update resetPassword record
+	if database.DB.
+		Model(&resetPassword).
+		Where("email_address = ?", resetPassword.EmailAddress).
+		Updates(&resetPassword).RowsAffected == 0 {
+		database.DB.Create(&resetPassword)
+	}
+```
