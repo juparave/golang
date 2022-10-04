@@ -5,6 +5,9 @@
 [Vim-go](vimgo.md)
 [Vim tips](vimtips.md)
 
+### Web servers
+
+[fiber](fiber.md)
 
 ### Templates
 
