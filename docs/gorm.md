@@ -1,6 +1,18 @@
 # gorm
 
-Basic configuration.
+## Setup gorm
+
+    $ go get -u gorm.io/gorm
+
+Install drivers
+
+    $ go get -u gorm.io/driver/sqlite
+    $ go get -u gorm.io/driver/mysql
+
+
+## Basic configuration.
+
+[Connecting to a Database ref](https://gorm.io/docs/connecting_to_the_database.html)
 
 To handle `time.Time` correctly, you need to include `parseTime` as a parameter. 
 ([more parameters](https://github.com/go-sql-driver/mysql#parameters))
