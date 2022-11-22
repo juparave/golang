@@ -9,14 +9,13 @@ Install drivers
     $ go get -u gorm.io/driver/sqlite
     $ go get -u gorm.io/driver/mysql
 
-
 ## Basic configuration.
 
 [Connecting to a Database ref](https://gorm.io/docs/connecting_to_the_database.html)
 
-To handle `time.Time` correctly, you need to include `parseTime` as a parameter. 
+To handle `time.Time` correctly, you need to include `parseTime` as a parameter.
 ([more parameters](https://github.com/go-sql-driver/mysql#parameters))
-To fully support `UTF-8 encoding`, you need to change `charset=utf8` to `charset=utf8mb4`. 
+To fully support `UTF-8 encoding`, you need to change `charset=utf8` to `charset=utf8mb4`.
 See [this article](https://mathiasbynens.be/notes/mysql-utf8mb4) for a detailed explanation
 
 ```go
@@ -47,7 +46,7 @@ type User struct {
 	Token          string     `json:"token" gorm:"-"`
 
 	Roles   []Role   `json:"roles" gorm:"many2many:user_roles;"`
-	Account *Account `json:"-" gorm:"foreingKey:AccountID"`
+	Account *Account `json:"-"`
 }
 ```
 
