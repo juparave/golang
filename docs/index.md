@@ -1,11 +1,12 @@
 # Go
 
-go-intersect lib https://github.com/juliangruber/go-intersect/blob/master/intersect.go
+[go-intersect lib](https://github.com/juliangruber/go-intersect/blob/master/intersect.go)
 
 ## Vim-Go
 
-[Vim-go](vimgo.md)
-[Vim tips](vimtips.md)
+- [Vim-go](vimgo.md)
+- [Vim tips](vimtips.md)
+- [Vim Slices](slices.md)
 
 ### Web servers
 
@@ -30,7 +31,7 @@ go-intersect lib https://github.com/juliangruber/go-intersect/blob/master/inters
 
 ### Dates
 
-[Date](dates.md)
+[Dates](dates.md)
 
 ### Constants
 
