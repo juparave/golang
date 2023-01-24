@@ -34,3 +34,11 @@ An easy way to remember this value is that it holds, when presented
 in this order, the values (lined up with the elements above):
 
     `1 2  3  4  5    6  -7`
+
+## Handle zero dates
+
+Is better to persist a null value than the zero date
+
+	if lead.AssignmentDate.IsZero() {
+		lead.AssignmentDate = nil
+	}
