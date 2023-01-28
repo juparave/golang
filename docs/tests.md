@@ -1,5 +1,8 @@
 # Go Tests
 
+* [Best Practices](https://medium.com/@benbjohnson/structuring-tests-in-go-46ddee7a25c)
+* [Testing functions for Go](https://github.com/benbjohnson/testing)
+
 ```go
 var testsWithInterface = []struct {
 	inte interface{}
