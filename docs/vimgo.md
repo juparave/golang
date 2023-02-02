@@ -60,3 +60,15 @@ For a split window: You can use `Ctrl-w +` and `Ctrl-w -` to resize the height o
 ### iTerm
 
 https://gist.github.com/nobitagit/729fc16b8c16edb9a2fe390d6f312c66
+
+### Package management
+
+To install a package, just go get it
+
+    $ go get github.com/a-h/generate
+
+To remove a package remove it by getting its none version
+
+    $ go get github.com/a-h/generate@none
+
+Here @none is the version part set as none. Thus removing the package.
