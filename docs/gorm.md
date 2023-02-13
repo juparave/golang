@@ -81,3 +81,38 @@ Create or update, tries to updates a row but if no rows are affected then create
 		database.DB.Create(&resetPassword)
 	}
 ```
+
+### Dates, timestamps
+
+Having a MySQL table as:
+
+| Field     | Type        | Null | Key | Default           | Extra                                         |
+|-----------|-------------|------|-----|-------------------|-----------------------------------------------|
+| id        | bigint      | NO   | PRI | NULL              | auto_increment                                |
+| user_id   | int         | NO   | MUL | NULL              |                                               |
+| lead_id   | bigint      | NO   | MUL | NULL              |                                               |
+| name      | varchar(20) | NO   |     | NULL              |                                               |
+| type      | varchar(20) | NO   |     | NULL              |                                               |
+| note      | text        | YES  |     | NULL              |                                               |
+| createdAt | timestamp   | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED                             |
+| updatedAt | timestamp   | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
+
+Could potentially receive errors like `error inserting activity: Error 1048 (23000): Column 'createdAt' cannot be null`
+
+To avoid that, add `default:CURRENT_TIMESTAMP` to the struct declaration
+
+```go
+// Activity declares the model struct
+type Activity struct {
+	ID          int64      `json:"id" gorm:"column:id;type:bigint"`
+	UserID      int32      `json:"user_id" gorm:"column:user_id;type:int"`
+	LeadID      int64      `json:"lead_id" gorm:"column:lead_id;type:bigint"`
+	Name        string     `json:"name" gorm:"column:name;type:varchar(20)"`
+	Type        string     `json:"type" gorm:"column:type;type:varchar(20)"`
+	Note        string     `json:"note" gorm:"column:note;type:text"`
+	CreatedAt   *time.Time `json:"createdAt" gorm:"column:createdAt;type:timestamp;default:CURRENT_TIMESTAMP"`
+	updatedAt   *time.Time `json:"updatedAt" gorm:"column:updatedAt;type:timestamp;default:CURRENT_TIMESTAMP"`
+	User        User
+	Lead        Lead
+}
+```
