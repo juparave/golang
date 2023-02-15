@@ -140,3 +140,47 @@ func SocketListen() {
 	}
 }
 ```
+
+```go
+...
+type Message struct {
+	Scope     string `json:"scope"`
+	Event     string `json:"event"`
+	TaskSid   string `json:"taskSid"`
+	WorkerSid string `json:"workerSid"`
+}
+
+func TSocketListen() {
+	for {
+		select {
+		case message := <-socket.Twiliopipe:
+			app.InfoLog.Println("TSocketListen to event:", string(message.Body))
+			// handle message for twilio
+			var msg Message
+			err := json.Unmarshal([]byte(message.Body), &msg)
+			if err != nil {
+				fmt.Println("Error decoding JSON:", err)
+				return
+			}
+			if msg.Scope == "call" {
+				if msg.Event == "disconnect" {
+					// after call is disconnected, if there is a task
+					// associated, the task should be marked as `completed` or `canceled`
+					UpdateTaskState(msg.TaskSid, "completed", "disconnected")
+				}
+			}
+			if msg.Scope == "twilio" {
+				if msg.Event == "getEnvironment" {
+					// the client is asking for environment values
+					// return workspace Activities values
+					app.InfoLog.Println("got socket event getEnvironment")
+					err := message.Send(fiber.Map{"activities": app.Twilio.Workspace.Activities})
+					if err != nil {
+						app.ErrorLog.Println("socket error:", err.Error())
+					}
+				}
+			}
+		}
+	}
+}
+```
