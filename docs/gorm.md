@@ -116,3 +116,67 @@ type Activity struct {
 	Lead        Lead
 }
 ```
+
+### Handling short dates
+
+```go
+import (
+	"database/sql/driver"
+	"strings"
+	"time"
+)
+
+// ShortDate is a custom type to handle dates
+type ShortDate struct {
+	time.Time
+}
+
+// UnmarshalJSON is a custom unmarshaler for ShortDate
+// Easier to handle post from JSON input
+func (sd *ShortDate) UnmarshalJSON(b []byte) error {
+	s := strings.Trim(string(b), "\"")
+	if s == "" {
+		sd.Time = time.Time{}
+		return nil
+	}
+	t, err := time.Parse("2006-01-02", s)
+	if err != nil {
+		return err
+	}
+	sd.Time = t
+	return nil
+}
+
+// MarshalJSON is a custom marshaler for ShortDate
+// Send JSON date in short format
+func (sd *ShortDate) MarshalJSON() ([]byte, error) {
+	// returns short date format yyyy-mm-dd
+	return []byte(sd.Time.Format("\"2006-01-02\"")), nil
+}
+
+// Value implements the driver.Valuer interface
+// this allows easy insertion into the db
+func (sd ShortDate) Value() (driver.Value, error) {
+	return sd.Time.Format("2006-01-02"), nil
+}
+```
+
+Example
+
+```go
+// PersonalData declares the model struct
+type PersonalData struct {
+	ID           int64      `json:"id" gorm:"column:personal_id;type:bigint"`
+	Paternal     string     `json:"paternal" gorm:"column:personal_paternal;type:varchar(50)"`
+	Maternal     string     `json:"maternal" gorm:"column:personal_maternal;type:varchar(50)"`
+	Name         string     `json:"name" gorm:"column:personal_name;type:varchar(50)"`
+	Email        string     `json:"email" gorm:"column:personal_email;type:varchar(100)"`
+	Phone        int64      `json:"phone" gorm:"column:personal_phone;type:bigint"`
+	FullNumber   string     `json:"full_number" gorm:"column:full_number;type:varchar(14)"`
+	Cp           string     `json:"cp" gorm:"column:personal_cp;type:varchar(20)"`
+	Sex          string     `json:"sex" gorm:"column:personal_sex;type:varchar(20)"`
+	Birthdate    *ShortDate `json:"birthdate" gorm:"column:personal_birthdate;type:date"`
+	CreationDate time.Time  `json:"creation_date" gorm:"column:personal_creation_date;type:timestamp"`
+	UpdateDate   time.Time  `json:"update_date" gorm:"column:personal_update_date;type:timestamp"`
+}
+```
