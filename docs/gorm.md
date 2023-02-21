@@ -159,6 +159,37 @@ func (sd *ShortDate) MarshalJSON() ([]byte, error) {
 func (sd ShortDate) Value() (driver.Value, error) {
 	return sd.Time.Format("2006-01-02"), nil
 }
+
+// Scan implements the sql.Scanner interface
+// used to get data from the db
+func (sd *ShortDate) Scan(src interface{}) error {
+	if src == nil {
+		*sd = ShortDate{}
+		return nil
+	}
+
+	switch t := src.(type) {
+	case time.Time:
+		*sd = ShortDate{Time: t}
+		return nil
+	case []byte:
+		d, err := time.Parse("2006-01-02", string(t))
+		if err != nil {
+			return err
+		}
+		*sd = ShortDate{Time: d}
+		return nil
+	case string:
+		d, err := time.Parse("2006-01-02", t)
+		if err != nil {
+			return err
+		}
+		*sd = ShortDate{Time: d}
+		return nil
+	default:
+		return fmt.Errorf("unsupported Scan, storing driver.Value type %T into ShortDate", src)
+	}
+}
 ```
 
 Example
