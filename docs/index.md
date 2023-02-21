@@ -33,6 +33,19 @@
 
 [Dates](dates.md)
 
+### JSON
+
+Print struct in json format
+
+```go
+var lead models.Lead
+jsonData, err := json.MarshalIndent(lead, "", "    ")
+if err != nil {
+    return err
+}
+fmt.Println(string(jsonData))
+```
+
 ### Constants
 
 Use CamelCase to name constants, use capital letter to export outside package
