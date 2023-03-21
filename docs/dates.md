@@ -42,3 +42,28 @@ Is better to persist a null value than the zero date
 	if lead.AssignmentDate.IsZero() {
 		lead.AssignmentDate = nil
 	}
+
+## Date parser
+
+```go
+// ParseDate converts a string 'yyyy-mm-dd' to a time.Time
+func ParseDate(s string) time.Time {
+	format := "2006-01-02"
+	parsed, err := time.Parse(format, s)
+	if err != nil {
+		// defaults to current date
+		return time.Now()
+	}
+	return parsed
+}
+
+// ParseDate converts a string with defined format to a time.Time
+func ParseDateF(s, format string) time.Time {
+	parsed, err := time.Parse(format, s)
+	if err != nil {
+		// defaults to current date
+		return time.Now()
+	}
+	return parsed
+}
+```
