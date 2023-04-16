@@ -39,3 +39,31 @@ func createChatDisplay(leftText, rightText string) (string, error) {
 	return buf.String(), nil
 }
 ```
+
+Add functions to parser.
+
+```go
+import (
+    "html/template"
+)
+
+// Define a custom template function to mark content as safe HTML
+func safeHTML(s string) template.HTML {
+    return template.HTML(s)
+}
+```
+
+Using embeded FS the function needs to add the function before parsing it.
+
+```go
+// Register the custom template function
+t := template.New("chat.html").Funcs(template.FuncMap{
+    "safeHTML": safeHTML,
+})
+
+// Parse your template
+t, err := t.ParseFS(templates, "templates/chat.html")
+if err != nil {
+    // handle error
+}
+```
