@@ -21,6 +21,8 @@
 
 [Practical Go Lessons. Chap32 Templates](https://www.practical-go-lessons.com/chap-32-templates)
 
+- [html Templates](html_templates.md)
+
 ### Databases
 
 [gorm](gorm.md)
