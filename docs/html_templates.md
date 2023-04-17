@@ -67,3 +67,23 @@ if err != nil {
     // handle error
 }
 ```
+
+Simple html return from template
+
+```go
+//go:embed templates/*
+var templates embed.FS
+
+// PrivacyPolicy returns the Privacy Policy
+func PrivacyPolicy(c *fiber.Ctx) error {
+	page, err := templates.ReadFile("templates/privacy-policy.html")
+	if err != nil {
+		app.ErrorLog.Println(err)
+		return err
+	}
+
+	// Set appropriate headers for HTML response
+	c.Set(fiber.HeaderContentType, fiber.MIMETextHTMLCharsetUTF8)
+	return c.Send(page)
+}
+```
