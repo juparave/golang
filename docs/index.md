@@ -13,6 +13,10 @@
 - [fiber](fiber.md)
 - [http](http.md)
 
+### Mail
+
+- [net/smtp](net_smtp.md)
+
 ### Tests
 
 [Tests](tests.md)
