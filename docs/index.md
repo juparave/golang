@@ -64,4 +64,10 @@ const (
 	clientID     = "CLIENTSTRING"
 	clientSecret = "CLIENTSECRET"
 )
+
+### Excelize
+
+Handle `xlsx` files with [Excelize](https://xuri.me/excelize/en/)
+
+* [Styling](styles.md)
 ```
