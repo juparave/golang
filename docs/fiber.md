@@ -182,5 +182,75 @@ func TSocketListen() {
 			}
 		}
 	}
+
+
+## Middlewares
+
+### Authentication
+
+```go
+func IsAuthenticated(c *fiber.Ctx) error {
+	path := c.Path()
+
+    // if not in `/api` path, let it through
+	if !strings.Contains(path, "/api") {
+		// not restricted
+		return c.Next()
+	}
+
+    // get JWT from cookie or header
+	jwt := util.GetJWT(c)
+
+	userID, err := util.ParseJwt(jwt)
+	if err != nil {
+		c.Status(fiber.StatusUnauthorized)
+		return c.JSON(fiber.Map{
+			"message": "unauthenticated",
+		})
+	}
+
+    // Get full user's data from the database
+	var user models.User
+	if err = database.DB.Preload("Roles").First(&user, "id = ?", userID).Error; err != nil {
+        // if user not found
+		c.Status(fiber.StatusUnauthorized)
+		return c.JSON(fiber.Map{
+			"message": "unauthenticated",
+		})
+	}
+
+	// create a string of roles, separated by commas
+	roles := ""
+	for _, role := range user.Roles {
+		roles += role.Name + ","
+	}
+
+    // Store the user's data in the context
+	c.Locals("user", user)
+	c.Locals("roles", roles)
+
+	return c.Next()
+}
+```
+
+### Authorization
+
+```go
+// IsAdmin checks if the user has "admin" role
+func IsAdmin(c *fiber.Ctx) error {
+	// Retrieve the current user's roles from the request context
+	roles := c.Locals("roles")
+
+	// Check if the user has "admin" role
+	if util.Contains(strings.Split(roles.(string), ","), "admin") {
+		fmt.Println("admin")
+		// If the user has "admin" role, call c.Next() to proceed to the next handler
+		return c.Next()
+	}
+
+	// If the user doesn't have "admin" role, return an error response
+	return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
+		"message": "Access denied. You must have 'admin' role to access this resource.",
+	})
 }
 ```
