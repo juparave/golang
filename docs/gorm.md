@@ -82,6 +82,30 @@ Create or update, tries to updates a row but if no rows are affected then create
 	}
 ```
 
+Compare with date strings
+
+```go
+	var reports []models.QAReport
+
+	database.DB.
+		Joins("JOIN qa_samples ON qa_samples.qa_report_id = qa_reports.id").
+		Joins("LEFT JOIN species ON species.id = qa_samples.specie_id").
+		Joins("LEFT JOIN suppliers ON suppliers.id = qa_reports.supplier_id").
+		Where("species.name LIKE ?", "%"+q+"%").
+		Or("qa_reports.capture LIKE ?", "%"+q+"%").
+		Or("suppliers.name LIKE ?", "%"+q+"%").
+		Or("DATE_FORMAT(qa_reports.created_at, '%Y-%m-%d') = ?", q).
+		Preload("Supplier").
+		Preload("Samples").
+		Preload("Samples.Category").
+		Preload("Samples.Variety").
+		Preload("Samples.Specie").
+		Preload("Samples.SubCategory").
+		Order("qa_reports.updated_at desc").
+		Limit(limit).
+		Find(&reports)
+```
+
 ### Dates, timestamps
 
 Having a MySQL table as:
