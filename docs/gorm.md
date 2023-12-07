@@ -50,6 +50,8 @@ type User struct {
 }
 ```
 
+Reference on `struct tag types` https://gorm.io/docs/models.html#Embedded-Struct
+
 Some `user` tools
 
 ```go
