@@ -84,6 +84,27 @@ Create or update, tries to updates a row but if no rows are affected then create
 	}
 ```
 
+Multiple `Or`s
+
+```go
+    // apply filter if any
+	if params.Filter != "" {
+		f := fmt.Sprintf("%%%s%%", params.Filter)
+		// need `query` to get group of ORs
+		query := database.DB
+		db = db.Where(
+			// group of ORs
+			query.Or("name LIKE ?", f).
+				Or("description LIKE ?", f).
+				Or("category LIKE ?", f).
+				Or("subcategory LIKE ?", f).
+				Or("brand LIKE ?", f).
+				Or("family LIKE ?", f).
+				Or("model LIKE ?", f),
+		)
+	}
+```
+
 Compare with date strings
 
 ```go
