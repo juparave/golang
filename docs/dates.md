@@ -67,3 +67,11 @@ func ParseDateF(s, format string) time.Time {
 	return parsed
 }
 ```
+
+Parse with location, note that the date string has no location info
+
+```go
+    // convert comp.Fecha to time.Time format using America/Mexico_City timezone
+    ti, _ := time.LoadLocation("America/Mexico_City")
+    fecha, err := time.ParseInLocation("2006-01-02T15:04:05", comp.Fecha, ti)
+```
