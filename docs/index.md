@@ -39,6 +39,10 @@
 
 [Dates](dates.md)
 
+### Enums
+
+[Using Enums (and Enum Types) in Golang](https://www.sohamkamani.com/golang/enums/)
+
 ### JSON
 
 Print struct in json format
@@ -70,4 +74,4 @@ const (
 
 Handle `xlsx` files with [Excelize](https://xuri.me/excelize/en/)
 
-* [Styling](styles.md)
+- [Styling](styles.md)
