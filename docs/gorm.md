@@ -41,8 +41,8 @@ type User struct {
 	MobileNumber   string     `json:"mobile_number" gorm:"size:64"`
 	Password       []byte     `json:"-" gorm:"size:64"` // don't return password on json
 	LastLogin      *time.Time `json:"last_login_date"`  // The LastLogin field takes a pointer to allow setting null value in MySQL
-	CreatedAt      time.Time  `json:"created" sql:"DEFAULT:CURRENT_TIMESTAMP"`
-	UpdatedAt      time.Time  `json:"updated" sql:"DEFAULT:CURRENT_TIMESTAMP"`
+  	CreatedAt      time.Time  `json:"createdAt" gorm:"autoCreateTime"`
+	UpdateAt       time.Time  `json:"updatedAt" gorm:"autoUpdateTime"`
 	Token          string     `json:"token" gorm:"-"`
 
 	Roles   []Role   `json:"roles" gorm:"many2many:user_roles;"`
@@ -252,7 +252,7 @@ type PersonalData struct {
 	Phone        int64      `json:"phone" gorm:"column:personal_phone;type:bigint"`
 	FullNumber   string     `json:"full_number" gorm:"column:full_number;type:varchar(14)"`
 	Cp           string     `json:"cp" gorm:"column:personal_cp;type:varchar(20)"`
-	Sex          string     `json:"sex" gorm:"column:personal_sex;type:varchar(20)"`
+	Gender       string     `json:"gender" gorm:"column:personal_gender;type:varchar(20)"`
 	Birthdate    *ShortDate `json:"birthdate" gorm:"column:personal_birthdate;type:date"`
 	CreationDate time.Time  `json:"creation_date" gorm:"column:personal_creation_date;type:timestamp"`
 	UpdateDate   time.Time  `json:"update_date" gorm:"column:personal_update_date;type:timestamp"`
