@@ -216,3 +216,85 @@ func ApiMonitor(c echo.Context) error {
 	return c.JSON(http.StatusOK, monitorsResponse)
 }
 ```
+
+## Event hooks
+
+### Interceptions
+
+#### Intercept after login
+
+If you want to attach `roles` values to a auth record you can:
+
+```go
+// AttachUserRoles attaches user roles to the user record
+func AttachUserRoles() {
+	// fires only for "users" auth collection
+	app.PB.OnRecordAuthRequest("users").Add(func(e *core.RecordAuthEvent) error {
+		if errs := app.PB.Dao().ExpandRecord(e.Record, []string{"roles"}, nil); len(errs) > 0 {
+			app.Log.Error("Error expanding roles", "err", errs)
+		}
+		// log.Println(e.HttpContext)
+		// log.Println(e.Record)
+		// log.Println(e.Token)
+		// log.Println(e.Meta)
+		return nil
+	})
+}
+```
+
+It works well and without giving list and view permissions in `roles` collection.  
+But, is not best practice.  If you want to have the roles values from a multirelation
+collection is better to ask them from the `authWithPassword` and `authRefresh` methods
+
+```ts
+await pb.collection("users").authWithPassword("test@example.com", "1234567890", {
+    expand: "roles" // replace with your relation field name
+})
+
+await pb.collection("users").authRefresh({
+    expand: "roles" // replace with your relation field name
+})
+```
+
+#### Intercept before create
+ref: https://pocketbase.io/docs/go-records/#intercept-record-before-create-api-hook
+
+In case of new `tickets` we want to set the value of `status` to `open`
+
+```go
+func SetTicketsBeforeCreate() {
+	app.PB.OnRecordBeforeCreateRequest("tickets").Add(func(e *core.RecordCreateEvent) error {
+		e.Record.Set("status", "open")
+		return nil
+	})
+}
+```
+
+#### Intercept before update 
+ref: https://pocketbase.io/docs/go-records/#intercept-record-before-update-api-hook
+
+While updating a `ticket.status` to `created` then set `folio`, if `folio` is
+empty, to current consecutive for the reference. In this case referecen is
+`ticket` which is the name of consecutive in the table.
+
+```go
+func SetTicketsBeforeUpdate() {
+	app.PB.OnRecordBeforeUpdateRequest("tickets").Add(func(e *core.RecordUpdateEvent) error {
+		// if the status is created, set the consecutive
+		if e.Record.GetString("status") == "created" && e.Record.GetString("folio") == "" {
+            ref := "ticket"
+			// set consecutive folio
+			consecutive, err := models.GetConsecutive(app.PB, ref)
+			if err != nil {
+				// return error???
+				app.Log.Error("Error getting consecutive", "err", err)
+			}
+			e.Record.Set("folio", consecutive)
+		}
+		return nil
+	})
+}
+
+```
+
+
