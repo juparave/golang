@@ -75,4 +75,8 @@ const (
 
 Handle `xlsx` files with [Excelize](https://xuri.me/excelize/en/)
 
+### Stripe
+
+Simple `stripe` guide to handle subscription, in work [tips](stripe.md)
+
 - [Styling](styles.md)
